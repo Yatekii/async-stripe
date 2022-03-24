@@ -189,46 +189,68 @@ where
 ///
 /// For more details, see <https://stripe.com/docs/api/pagination>
 #[derive(Debug, Deserialize, Serialize)]
-pub struct List<T> {
+pub struct List<T, P> {
     pub data: Vec<T>,
     pub has_more: bool,
     pub total_count: Option<u64>,
     pub url: String,
+    pub params: Option<P>,
 }
 
-impl<T> Default for List<T> {
+impl<T, P> Default for List<T, P> {
     fn default() -> Self {
-        List { data: Vec::new(), has_more: false, total_count: None, url: String::new() }
+        List {
+            data: Vec::new(),
+            has_more: false,
+            total_count: None,
+            url: String::new(),
+            params: None,
+        }
     }
 }
 
-impl<T: Clone> Clone for List<T> {
+impl<T: Clone, P: Clone> Clone for List<T, P> {
     fn clone(&self) -> Self {
         List {
             data: self.data.clone(),
             has_more: self.has_more,
             total_count: self.total_count,
             url: self.url.clone(),
+            params: self.params.clone(),
         }
     }
 }
 
-impl<T: DeserializeOwned + Send + 'static> List<T> {
+impl<T: DeserializeOwned + Send + 'static, P: Serialize + DeserializeOwned + Send + 'static>
+    List<T, P>
+{
     /// Prefer `List::next` when possible
-    pub fn get_next(client: &Client, url: &str, last_id: &str) -> Response<List<T>> {
+    pub fn get_next(
+        client: &Client,
+        url: &str,
+        last_id: &str,
+        params: Option<P>,
+    ) -> Response<List<T, P>> {
         if url.starts_with("/v1/") {
             let path = url.trim_start_matches("/v1/").to_string(); // the url we get back is prefixed
-            client.get_query(
-                &path,
-                [("starting_after", last_id)].iter().cloned().collect::<HashMap<_, _>>(),
-            )
+
+            // todo(arlyon): handle starting_after here
+
+            match params {
+                Some(params) => client.get_query(&url, params),
+                None => client.get(&url),
+            }
         } else {
             err(StripeError::UnsupportedVersion)
         }
     }
 }
 
-impl<T: Paginate + DeserializeOwned + Send + 'static> List<T> {
+impl<
+        T: Paginate + DeserializeOwned + Send + 'static,
+        P: DeserializeOwned + Clone + Serialize + Send + 'static,
+    > List<T, P>
+{
     /// Repeatedly queries Stripe for more data until all elements in list are fetched, using
     /// Stripe's default page size.
     ///
@@ -297,15 +319,16 @@ impl<T: Paginate + DeserializeOwned + Send + 'static> List<T> {
     }
 
     /// Fetch an additional page of data from stripe.
-    pub fn next(&self, client: &Client) -> Response<List<T>> {
+    pub fn next(&self, client: &Client) -> Response<List<T, P>> {
         if let Some(last_id) = self.data.last().map(|d| d.cursor()) {
-            List::get_next(client, &self.url, last_id.as_ref())
+            List::get_next(client, &self.url, last_id.as_ref(), self.params.clone())
         } else {
             ok(List {
                 data: Vec::new(),
                 has_more: false,
                 total_count: self.total_count,
                 url: self.url.clone(),
+                params: self.params.clone(),
             })
         }
     }

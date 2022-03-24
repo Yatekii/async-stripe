@@ -32,7 +32,7 @@ pub struct File {
 
     /// A list of [file links](https://stripe.com/docs/api#file_links) that point at this file.
     #[serde(default)]
-    pub links: List<FileLink>,
+    pub links: List<FileLink, ()>,
 
     /// The [purpose](https://stripe.com/docs/file-upload#uploading-a-file) of the uploaded file.
     pub purpose: FilePurpose,
@@ -58,7 +58,7 @@ impl File {
     /// Returns a list of the files that your account has access to.
     ///
     /// The files are returned sorted by creation date, with the most recently created files appearing first.
-    pub fn list(client: &Client, params: ListFiles<'_>) -> Response<List<File>> {
+    pub fn list(client: &Client, params: ListFiles<'_>) -> Response<List<File, ()>> {
         client.get_query("/files", &params)
     }
 

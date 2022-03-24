@@ -94,7 +94,7 @@ impl SubscriptionSchedule {
     pub fn list(
         client: &Client,
         params: ListSubscriptionSchedules<'_>,
-    ) -> Response<List<SubscriptionSchedule>> {
+    ) -> Response<List<SubscriptionSchedule, ()>> {
         client.get_query("/subscription_schedules", &params)
     }
 

@@ -102,7 +102,7 @@ pub struct BitcoinReceiver {
     ///
     /// Hidden when viewing the receiver with a publishable key.
     #[serde(default)]
-    pub transactions: List<BitcoinTransaction>,
+    pub transactions: List<BitcoinTransaction, ()>,
 
     /// This receiver contains uncaptured funds that can be used for a payment or refunded.
     #[serde(skip_serializing_if = "Option::is_none")]

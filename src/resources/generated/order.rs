@@ -79,7 +79,7 @@ pub struct Order {
 
     /// A list of returns that have taken place for this order.
     #[serde(default)]
-    pub returns: List<OrderReturn>,
+    pub returns: List<OrderReturn, ()>,
 
     /// The shipping method that is currently selected for this order, if any.
     ///
@@ -125,7 +125,7 @@ impl Order {
     /// Returns a list of your orders.
     ///
     /// The orders are returned sorted by creation date, with the most recently created orders appearing first.
-    pub fn list(client: &Client, params: ListOrders<'_>) -> Response<List<Order>> {
+    pub fn list(client: &Client, params: ListOrders<'_>) -> Response<List<Order, ()>> {
         client.get_query("/orders", &params)
     }
 

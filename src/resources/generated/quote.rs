@@ -108,7 +108,7 @@ pub struct Quote {
 
     /// A list of items the customer is being quoted for.
     #[serde(default)]
-    pub line_items: List<CheckoutSessionItem>,
+    pub line_items: List<CheckoutSessionItem, ()>,
 
     /// Has the value `true` if the object exists in live mode or the value `false` if the object exists in test mode.
     pub livemode: bool,
@@ -158,7 +158,7 @@ pub struct Quote {
 
 impl Quote {
     /// Returns a list of your quotes.
-    pub fn list(client: &Client, params: ListQuotes<'_>) -> Response<List<Quote>> {
+    pub fn list(client: &Client, params: ListQuotes<'_>) -> Response<List<Quote, ()>> {
         client.get_query("/quotes", &params)
     }
 
@@ -305,7 +305,7 @@ pub struct QuotesResourceUpfront {
     ///
     /// This does not include pending invoice items that exist on the customer but may still be included in the next invoice.
     #[serde(default)]
-    pub line_items: List<CheckoutSessionItem>,
+    pub line_items: List<CheckoutSessionItem, ()>,
 
     pub total_details: QuotesResourceTotalDetails,
 }

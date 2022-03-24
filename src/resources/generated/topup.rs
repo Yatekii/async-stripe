@@ -84,7 +84,7 @@ pub struct Topup {
 
 impl Topup {
     /// Returns a list of top-ups.
-    pub fn list(client: &Client, params: ListTopups<'_>) -> Response<List<Topup>> {
+    pub fn list(client: &Client, params: ListTopups<'_>) -> Response<List<Topup, ()>> {
         client.get_query("/topups", &params)
     }
 

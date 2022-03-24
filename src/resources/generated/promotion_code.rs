@@ -63,7 +63,10 @@ pub struct PromotionCode {
 
 impl PromotionCode {
     /// Returns a list of your promotion codes.
-    pub fn list(client: &Client, params: ListPromotionCodes<'_>) -> Response<List<PromotionCode>> {
+    pub fn list(
+        client: &Client,
+        params: ListPromotionCodes<'_>,
+    ) -> Response<List<PromotionCode, ()>> {
         client.get_query("/promotion_codes", &params)
     }
 

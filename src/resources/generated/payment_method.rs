@@ -125,7 +125,10 @@ impl PaymentMethod {
     /// Returns a list of PaymentMethods.
     ///
     /// For listing a customer’s payment methods, you should use [List a Customer’s PaymentMethods](https://stripe.com/docs/api/payment_methods/customer_list).
-    pub fn list(client: &Client, params: ListPaymentMethods<'_>) -> Response<List<PaymentMethod>> {
+    pub fn list(
+        client: &Client,
+        params: ListPaymentMethods<'_>,
+    ) -> Response<List<PaymentMethod, ()>> {
         client.get_query("/payment_methods", &params)
     }
 

@@ -90,7 +90,7 @@ impl BalanceTransaction {
     pub fn list(
         client: &Client,
         params: ListBalanceTransactions<'_>,
-    ) -> Response<List<BalanceTransaction>> {
+    ) -> Response<List<BalanceTransaction, ()>> {
         client.get_query("/balance_transactions", &params)
     }
 

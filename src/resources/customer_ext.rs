@@ -129,7 +129,7 @@ impl Customer {
         client: &Client,
         customer_id: &CustomerId,
         params: CustomerPaymentMethodRetrieval<'_>,
-    ) -> Response<List<PaymentMethod>> {
+    ) -> Response<List<PaymentMethod, ()>> {
         client.get_query(&format!("/customers/{}/payment_methods", customer_id), &params)
     }
 }

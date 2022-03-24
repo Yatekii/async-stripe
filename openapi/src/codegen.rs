@@ -1224,7 +1224,7 @@ pub fn gen_field_rust_type(
                 );
 
                 // N.B. return immediately; we use `Default` for list rather than `Option`
-                return format!("List<{}>", element_type);
+                return format!("List<{}, ()>", element_type);
             } else {
                 let struct_schema = meta.schema_field(object, field_name);
                 let struct_name = meta.schema_to_rust_type(&struct_schema);
@@ -1397,7 +1397,7 @@ pub fn gen_impl_requests(
                 out.push_str(&params_name);
                 out.push_str("<'_>) -> Response<List<");
                 out.push_str(&rust_struct);
-                out.push_str(">> {\n");
+                out.push_str(", ()>> {\n");
                 out.push_str("        client.get_query(\"/");
                 out.push_str(&segments.join("/"));
                 out.push_str("\", &params)\n");

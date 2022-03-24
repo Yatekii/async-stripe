@@ -114,7 +114,7 @@ pub struct SetupIntent {
 
 impl SetupIntent {
     /// Returns a list of SetupIntents.
-    pub fn list(client: &Client, params: ListSetupIntents<'_>) -> Response<List<SetupIntent>> {
+    pub fn list(client: &Client, params: ListSetupIntents<'_>) -> Response<List<SetupIntent, ()>> {
         client.get_query("/setup_intents", &params)
     }
 

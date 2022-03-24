@@ -117,11 +117,11 @@ pub struct Customer {
 
     /// The customer's payment sources, if any.
     #[serde(default)]
-    pub sources: List<PaymentSource>,
+    pub sources: List<PaymentSource, ()>,
 
     /// The customer's current subscriptions, if any.
     #[serde(default)]
-    pub subscriptions: List<Subscription>,
+    pub subscriptions: List<Subscription, ()>,
 
     #[serde(skip_serializing_if = "Option::is_none")]
     pub tax: Option<CustomerTax>,
@@ -135,7 +135,7 @@ pub struct Customer {
 
     /// The customer's tax IDs.
     #[serde(default)]
-    pub tax_ids: List<TaxId>,
+    pub tax_ids: List<TaxId, ()>,
 
     /// ID of the test clock this customer belongs to.
     #[serde(skip_serializing_if = "Option::is_none")]
@@ -146,7 +146,7 @@ impl Customer {
     /// Returns a list of your customers.
     ///
     /// The customers are returned sorted by creation date, with the most recent customers appearing first.
-    pub fn list(client: &Client, params: ListCustomers<'_>) -> Response<List<Customer>> {
+    pub fn list(client: &Client, params: ListCustomers<'_>) -> Response<List<Customer, ()>> {
         client.get_query("/customers", &params)
     }
 

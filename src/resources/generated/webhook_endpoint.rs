@@ -77,7 +77,7 @@ impl WebhookEndpoint {
     pub fn list(
         client: &Client,
         params: ListWebhookEndpoints<'_>,
-    ) -> Response<List<WebhookEndpoint>> {
+    ) -> Response<List<WebhookEndpoint, ()>> {
         client.get_query("/webhook_endpoints", &params)
     }
 

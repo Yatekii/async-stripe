@@ -205,7 +205,7 @@ pub fn field_mappings() -> FieldMap {
         (("fee", "type"), ("FeeType", "FeeType")),
         (("charge", "source"), ("PaymentSource", "Option<PaymentSource>")),
         (("customer", "default_source"), ("PaymentSource", "Option<Expandable<PaymentSource>>")),
-        (("customer", "sources"), ("PaymentSource", "List<PaymentSource>")),
+        (("customer", "sources"), ("PaymentSource", "List<PaymentSource, ()>")),
         (("invoice", "billing"), ("", "Option<CollectionMethod>")),
         (("invoice", "default_source"), ("PaymentSource", "Option<Expandable<PaymentSource>>")),
         (("invoiceitem", "period"), ("Period", "Option<Period>")),

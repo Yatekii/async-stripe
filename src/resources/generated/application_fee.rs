@@ -61,7 +61,7 @@ pub struct ApplicationFee {
     pub refunded: bool,
 
     /// A list of refunds that have been applied to the fee.
-    pub refunds: List<ApplicationFeeRefund>,
+    pub refunds: List<ApplicationFeeRefund, ()>,
 }
 
 impl ApplicationFee {
@@ -71,7 +71,7 @@ impl ApplicationFee {
     pub fn list(
         client: &Client,
         params: ListApplicationFees<'_>,
-    ) -> Response<List<ApplicationFee>> {
+    ) -> Response<List<ApplicationFee, ()>> {
         client.get_query("/application_fees", &params)
     }
 

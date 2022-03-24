@@ -60,7 +60,7 @@ impl SubscriptionItem {
     pub fn list(
         client: &Client,
         params: ListSubscriptionItems<'_>,
-    ) -> Response<List<SubscriptionItem>> {
+    ) -> Response<List<SubscriptionItem, ()>> {
         client.get_query("/subscription_items", &params)
     }
 

@@ -24,7 +24,10 @@ impl ExchangeRate {
     /// Returns a list of objects that contain the rates at which foreign currencies are converted to one another.
     ///
     /// Only shows the currencies for which Stripe supports.
-    pub fn list(client: &Client, params: ListExchangeRates<'_>) -> Response<List<ExchangeRate>> {
+    pub fn list(
+        client: &Client,
+        params: ListExchangeRates<'_>,
+    ) -> Response<List<ExchangeRate, ()>> {
         client.get_query("/exchange_rates", &params)
     }
 

@@ -65,7 +65,7 @@ pub struct PaymentIntent {
 
     /// Charges that were created by this PaymentIntent, if any.
     #[serde(default)]
-    pub charges: List<Charge>,
+    pub charges: List<Charge, ()>,
 
     /// The client secret of this PaymentIntent.
     ///
@@ -204,7 +204,10 @@ pub struct PaymentIntent {
 
 impl PaymentIntent {
     /// Returns a list of PaymentIntents.
-    pub fn list(client: &Client, params: ListPaymentIntents<'_>) -> Response<List<PaymentIntent>> {
+    pub fn list(
+        client: &Client,
+        params: ListPaymentIntents<'_>,
+    ) -> Response<List<PaymentIntent, ()>> {
         client.get_query("/payment_intents", &params)
     }
 

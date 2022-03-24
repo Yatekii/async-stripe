@@ -48,7 +48,7 @@ impl IssuerFraudRecord {
     pub fn list(
         client: &Client,
         params: ListIssuerFraudRecords<'_>,
-    ) -> Response<List<IssuerFraudRecord>> {
+    ) -> Response<List<IssuerFraudRecord, ()>> {
         client.get_query("/issuer_fraud_records", &params)
     }
 

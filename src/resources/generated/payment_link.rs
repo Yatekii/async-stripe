@@ -42,7 +42,7 @@ pub struct PaymentLink {
 
     /// The line items representing what is being sold.
     #[serde(default)]
-    pub line_items: List<CheckoutSessionItem>,
+    pub line_items: List<CheckoutSessionItem, ()>,
 
     /// Has the value `true` if the object exists in live mode or the value `false` if the object exists in test mode.
     pub livemode: bool,
@@ -86,7 +86,7 @@ pub struct PaymentLink {
 
 impl PaymentLink {
     /// Returns a list of your payment links.
-    pub fn list(client: &Client, params: ListPaymentLinks<'_>) -> Response<List<PaymentLink>> {
+    pub fn list(client: &Client, params: ListPaymentLinks<'_>) -> Response<List<PaymentLink, ()>> {
         client.get_query("/payment_links", &params)
     }
 
