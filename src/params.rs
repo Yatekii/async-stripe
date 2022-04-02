@@ -250,6 +250,52 @@ impl<T: Paginate + DeserializeOwned + Send + 'static> List<T> {
         Ok(data)
     }
 
+    /// Get all values in this list, consuming self and paginating until all values are fetched.
+    ///
+    /// This function repeatedly queries Stripe for more data until all elements in list are fetched, using
+    /// the page size specified in params, or Stripe's default page size if none is specified.
+    ///
+    /// ```no_run
+    /// let value_stream = list.get_all(&client);
+    /// while let Some(val) = value_stream.try_next().await? {
+    ///     println!("GOT = {:?}", val);
+    /// }
+    ///
+    /// // Alternatively, you can collect all values into a Vec
+    /// let all_values = list.get_all(&client).try_collect::<Vec<_>>().await?;
+    /// ```
+    #[cfg(all(feature = "async", feature = "stream"))]
+    pub fn get_all(
+        mut self,
+        client: &Client,
+    ) -> impl futures_util::Stream<Item = Result<T, StripeError>> {
+        // We are going to be popping items off the end of the list, so we need to reverse it.
+        self.data.reverse();
+
+        futures_util::stream::unfold(Some((self, client.clone())), |state| async {
+            let (mut list, client) = state?; // If none, we sent the last item in the list last iteration
+            let val = list.data.pop()?; // The initial list was empty, so we're done.
+
+            if !list.data.is_empty() {
+                return Some((Ok(val), Some((list, client)))); // We have more data on this page
+            }
+
+            if !list.has_more {
+                return Some((Ok(val), None)); // Final value of the stream, no errors
+            }
+
+            match list.next(&client).await {
+                Ok(mut next_list) => {
+                    next_list.data.reverse();
+
+                    // Yield last value of this page, the next page (and client) becomes the state
+                    Some((Ok(val), Some((next_list, client))))
+                }
+                Err(e) => Some((Err(e), None)), // We ran into an error. The last value of the stream will be the error.
+            }
+        })
+    }
+
     /// Fetch an additional page of data from stripe.
     pub fn next(&self, client: &Client) -> Response<List<T>> {
         if let Some(last_id) = self.data.last().map(|d| d.cursor()) {
