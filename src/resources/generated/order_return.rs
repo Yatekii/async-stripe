@@ -49,7 +49,7 @@ impl OrderReturn {
     /// Returns a list of your order returns.
     ///
     /// The returns are returned sorted by creation date, with the most recently created return appearing first.
-    pub fn list(client: &Client, params: ListOrderReturns<'_>) -> Response<List<OrderReturn, ()>> {
+    pub fn list<'a>(client: &Client, params: ListOrderReturns<'_>) -> Response<List<OrderReturn>> {
         client.get_query("/order_returns", &params)
     }
 

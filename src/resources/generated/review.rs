@@ -75,7 +75,7 @@ impl Review {
     /// Returns a list of `Review` objects that have `open` set to `true`.
     ///
     /// The objects are sorted in descending order by creation date, with the most recently created object appearing first.
-    pub fn list(client: &Client, params: ListReviews<'_>) -> Response<List<Review, ()>> {
+    pub fn list<'a>(client: &Client, params: ListReviews<'_>) -> Response<List<Review>> {
         client.get_query("/reviews", &params)
     }
 

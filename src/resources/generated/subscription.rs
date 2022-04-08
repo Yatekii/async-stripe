@@ -115,7 +115,7 @@ pub struct Subscription {
     pub ended_at: Option<Timestamp>,
 
     /// List of subscription items, each with an attached price.
-    pub items: List<SubscriptionItem, ()>,
+    pub items: List<SubscriptionItem>,
 
     /// The most recent invoice this subscription has generated.
     #[serde(skip_serializing_if = "Option::is_none")]
@@ -201,10 +201,10 @@ impl Subscription {
     /// By default, returns a list of subscriptions that have not been canceled.
     ///
     /// In order to list canceled subscriptions, specify `status=canceled`.
-    pub fn list(
+    pub fn list<'a>(
         client: &Client,
         params: ListSubscriptions<'_>,
-    ) -> Response<List<Subscription, ()>> {
+    ) -> Response<List<Subscription>> {
         client.get_query("/subscriptions", &params)
     }
 

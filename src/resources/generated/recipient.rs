@@ -20,7 +20,7 @@ pub struct Recipient {
     pub active_account: Option<BankAccount>,
 
     #[serde(default)]
-    pub cards: List<Card, ()>,
+    pub cards: List<Card>,
 
     /// Time at which the object was created.
     ///
@@ -78,7 +78,7 @@ impl Recipient {
     /// Returns a list of your recipients.
     ///
     /// The recipients are returned sorted by creation date, with the most recently created recipients appearing first.
-    pub fn list(client: &Client, params: ListRecipients<'_>) -> Response<List<Recipient, ()>> {
+    pub fn list<'a>(client: &Client, params: ListRecipients<'_>) -> Response<List<Recipient>> {
         client.get_query("/recipients", &params)
     }
 

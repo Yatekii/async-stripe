@@ -61,10 +61,10 @@ pub struct SetupAttempt {
 
 impl SetupAttempt {
     /// Returns a list of SetupAttempts associated with a provided SetupIntent.
-    pub fn list(
+    pub fn list<'a>(
         client: &Client,
         params: ListSetupAttempts<'_>,
-    ) -> Response<List<SetupAttempt, ()>> {
+    ) -> Response<List<SetupAttempt>> {
         client.get_query("/setup_attempts", &params)
     }
 }

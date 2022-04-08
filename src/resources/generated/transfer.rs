@@ -58,7 +58,7 @@ pub struct Transfer {
     pub metadata: Metadata,
 
     /// A list of reversals that have been applied to the transfer.
-    pub reversals: List<TransferReversal, ()>,
+    pub reversals: List<TransferReversal>,
 
     /// Whether the transfer has been fully reversed.
     ///
@@ -88,7 +88,7 @@ impl Transfer {
     /// Returns a list of existing transfers sent to connected accounts.
     ///
     /// The transfers are returned in sorted order, with the most recently created transfers appearing first.
-    pub fn list(client: &Client, params: ListTransfers<'_>) -> Response<List<Transfer, ()>> {
+    pub fn list<'a>(client: &Client, params: ListTransfers<'_>) -> Response<List<Transfer>> {
         client.get_query("/transfers", &params)
     }
 

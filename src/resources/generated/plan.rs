@@ -132,7 +132,7 @@ pub struct Plan {
 
 impl Plan {
     /// Returns a list of your plans.
-    pub fn list(client: &Client, params: ListPlans<'_>) -> Response<List<Plan, ()>> {
+    pub fn list<'a>(client: &Client, params: ListPlans<'_>) -> Response<List<Plan>> {
         client.get_query("/plans", &params)
     }
 

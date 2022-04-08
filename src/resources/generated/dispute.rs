@@ -73,7 +73,7 @@ pub struct Dispute {
 
 impl Dispute {
     /// Returns a list of your disputes.
-    pub fn list(client: &Client, params: ListDisputes<'_>) -> Response<List<Dispute, ()>> {
+    pub fn list<'a>(client: &Client, params: ListDisputes<'_>) -> Response<List<Dispute>> {
         client.get_query("/disputes", &params)
     }
 

@@ -114,7 +114,7 @@ impl Payout {
     /// Returns a list of existing payouts sent to third-party bank accounts or that Stripe has sent you.
     ///
     /// The payouts are returned in sorted order, with the most recently created payouts appearing first.
-    pub fn list(client: &Client, params: ListPayouts<'_>) -> Response<List<Payout, ()>> {
+    pub fn list<'a>(client: &Client, params: ListPayouts<'_>) -> Response<List<Payout>> {
         client.get_query("/payouts", &params)
     }
 

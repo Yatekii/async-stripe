@@ -75,7 +75,7 @@ pub struct Account {
 
     /// External accounts (bank accounts and debit cards) currently attached to this account.
     #[serde(default)]
-    pub external_accounts: List<ExternalAccount, ()>,
+    pub external_accounts: List<ExternalAccount>,
 
     #[serde(skip_serializing_if = "Option::is_none")]
     pub future_requirements: Option<AccountFutureRequirements>,
@@ -115,7 +115,7 @@ impl Account {
     /// Returns a list of accounts connected to your platform via [Connect](https://stripe.com/docs/connect).
     ///
     /// If you’re not a platform, the list is empty.
-    pub fn list(client: &Client, params: ListAccounts<'_>) -> Response<List<Account, ()>> {
+    pub fn list<'a>(client: &Client, params: ListAccounts<'_>) -> Response<List<Account>> {
         client.get_query("/accounts", &params)
     }
 

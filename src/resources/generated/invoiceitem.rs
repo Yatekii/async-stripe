@@ -127,7 +127,7 @@ impl InvoiceItem {
     /// Returns a list of your invoice items.
     ///
     /// Invoice items are returned sorted by creation date, with the most recently created invoice items appearing first.
-    pub fn list(client: &Client, params: ListInvoiceItems<'_>) -> Response<List<InvoiceItem, ()>> {
+    pub fn list<'a>(client: &Client, params: ListInvoiceItems<'_>) -> Response<List<InvoiceItem>> {
         client.get_query("/invoiceitems", &params)
     }
 

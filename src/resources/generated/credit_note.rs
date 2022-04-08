@@ -50,7 +50,7 @@ pub struct CreditNote {
     pub invoice: Expandable<Invoice>,
 
     /// Line items that make up the credit note.
-    pub lines: List<CreditNoteLineItem, ()>,
+    pub lines: List<CreditNoteLineItem>,
 
     /// Has the value `true` if the object exists in live mode or the value `false` if the object exists in test mode.
     pub livemode: bool,
@@ -111,7 +111,7 @@ pub struct CreditNote {
 
 impl CreditNote {
     /// Returns a list of credit notes.
-    pub fn list(client: &Client, params: ListCreditNotes<'_>) -> Response<List<CreditNote, ()>> {
+    pub fn list<'a>(client: &Client, params: ListCreditNotes<'_>) -> Response<List<CreditNote>> {
         client.get_query("/credit_notes", &params)
     }
 

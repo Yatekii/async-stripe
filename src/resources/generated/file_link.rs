@@ -47,7 +47,7 @@ pub struct FileLink {
 
 impl FileLink {
     /// Returns a list of file links.
-    pub fn list(client: &Client, params: ListFileLinks<'_>) -> Response<List<FileLink, ()>> {
+    pub fn list<'a>(client: &Client, params: ListFileLinks<'_>) -> Response<List<FileLink>> {
         client.get_query("/file_links", &params)
     }
 

@@ -89,7 +89,7 @@ pub struct Coupon {
 
 impl Coupon {
     /// Returns a list of your coupons.
-    pub fn list(client: &Client, params: ListCoupons<'_>) -> Response<List<Coupon, ()>> {
+    pub fn list<'a>(client: &Client, params: ListCoupons<'_>) -> Response<List<Coupon>> {
         client.get_query("/coupons", &params)
     }
 

@@ -71,10 +71,10 @@ pub struct ShippingRate {
 
 impl ShippingRate {
     /// Returns a list of your shipping rates.
-    pub fn list(
+    pub fn list<'a>(
         client: &Client,
         params: ListShippingRates<'_>,
-    ) -> Response<List<ShippingRate, ()>> {
+    ) -> Response<List<ShippingRate>> {
         client.get_query("/shipping_rates", &params)
     }
 

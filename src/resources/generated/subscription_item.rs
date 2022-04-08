@@ -57,10 +57,10 @@ pub struct SubscriptionItem {
 
 impl SubscriptionItem {
     /// Returns a list of your subscription items for a given subscription.
-    pub fn list(
+    pub fn list<'a>(
         client: &Client,
         params: ListSubscriptionItems<'_>,
-    ) -> Response<List<SubscriptionItem, ()>> {
+    ) -> Response<List<SubscriptionItem>> {
         client.get_query("/subscription_items", &params)
     }
 

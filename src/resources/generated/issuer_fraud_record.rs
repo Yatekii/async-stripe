@@ -45,10 +45,10 @@ pub struct IssuerFraudRecord {
 
 impl IssuerFraudRecord {
     /// Returns a list of issuer fraud records.
-    pub fn list(
+    pub fn list<'a>(
         client: &Client,
         params: ListIssuerFraudRecords<'_>,
-    ) -> Response<List<IssuerFraudRecord, ()>> {
+    ) -> Response<List<IssuerFraudRecord>> {
         client.get_query("/issuer_fraud_records", &params)
     }
 

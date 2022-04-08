@@ -164,7 +164,7 @@ pub struct Source {
 
 impl Source {
     /// List source transactions for a given source.
-    pub fn list(client: &Client, params: ListSources<'_>) -> Response<List<Source, ()>> {
+    pub fn list<'a>(client: &Client, params: ListSources<'_>) -> Response<List<Source>> {
         client.get_query("/sources/{source}/source_transactions", &params)
     }
 

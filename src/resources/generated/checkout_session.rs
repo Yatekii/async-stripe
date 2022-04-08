@@ -97,7 +97,7 @@ pub struct CheckoutSession {
 
     /// The line items purchased by the customer.
     #[serde(default)]
-    pub line_items: List<CheckoutSessionItem, ()>,
+    pub line_items: List<CheckoutSessionItem>,
 
     /// Has the value `true` if the object exists in live mode or the value `false` if the object exists in test mode.
     pub livemode: bool,
@@ -201,10 +201,10 @@ pub struct CheckoutSession {
 
 impl CheckoutSession {
     /// Returns a list of Checkout Sessions.
-    pub fn list(
+    pub fn list<'a>(
         client: &Client,
         params: ListCheckoutSessions<'_>,
-    ) -> Response<List<CheckoutSession, ()>> {
+    ) -> Response<List<CheckoutSession>> {
         client.get_query("/checkout/sessions", &params)
     }
 

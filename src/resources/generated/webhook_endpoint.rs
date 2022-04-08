@@ -74,10 +74,10 @@ pub struct WebhookEndpoint {
 
 impl WebhookEndpoint {
     /// Returns a list of your webhook endpoints.
-    pub fn list(
+    pub fn list<'a>(
         client: &Client,
         params: ListWebhookEndpoints<'_>,
-    ) -> Response<List<WebhookEndpoint, ()>> {
+    ) -> Response<List<WebhookEndpoint>> {
         client.get_query("/webhook_endpoints", &params)
     }
 

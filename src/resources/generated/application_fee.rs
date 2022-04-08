@@ -61,17 +61,17 @@ pub struct ApplicationFee {
     pub refunded: bool,
 
     /// A list of refunds that have been applied to the fee.
-    pub refunds: List<ApplicationFeeRefund, ()>,
+    pub refunds: List<ApplicationFeeRefund>,
 }
 
 impl ApplicationFee {
     /// Returns a list of application fees you’ve previously collected.
     ///
     /// The application fees are returned in sorted order, with the most recent fees appearing first.
-    pub fn list(
+    pub fn list<'a>(
         client: &Client,
         params: ListApplicationFees<'_>,
-    ) -> Response<List<ApplicationFee, ()>> {
+    ) -> Response<List<ApplicationFee>> {
         client.get_query("/application_fees", &params)
     }
 

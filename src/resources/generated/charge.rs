@@ -171,7 +171,7 @@ pub struct Charge {
     pub refunded: bool,
 
     /// A list of refunds that have been applied to the charge.
-    pub refunds: List<Refund, ()>,
+    pub refunds: List<Refund>,
 
     /// ID of the review associated with this charge if one exists.
     #[serde(skip_serializing_if = "Option::is_none")]
@@ -226,7 +226,7 @@ impl Charge {
     /// Returns a list of charges you’ve previously created.
     ///
     /// The charges are returned in sorted order, with the most recent charges appearing first.
-    pub fn list(client: &Client, params: ListCharges<'_>) -> Response<List<Charge, ()>> {
+    pub fn list<'a>(client: &Client, params: ListCharges<'_>) -> Response<List<Charge>> {
         client.get_query("/charges", &params)
     }
 

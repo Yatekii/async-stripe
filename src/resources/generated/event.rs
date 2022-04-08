@@ -53,7 +53,7 @@ impl Event {
     /// List events, going back up to 30 days.
     ///
     /// Each event data is rendered according to Stripe API version at its creation time, specified in [event object](https://stripe.com/docs/api/events/object) `api_version` attribute (not according to your current Stripe API version or `Stripe-Version` header).
-    pub fn list(client: &Client, params: ListEvents<'_>) -> Response<List<Event, ()>> {
+    pub fn list<'a>(client: &Client, params: ListEvents<'_>) -> Response<List<Event>> {
         client.get_query("/events", &params)
     }
 

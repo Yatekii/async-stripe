@@ -253,7 +253,7 @@ pub struct Invoice {
     ///
     /// `lines` is sorted as follows: invoice items in reverse chronological order, followed by the subscription, if any.
     #[serde(default)]
-    pub lines: List<InvoiceLineItem, ()>,
+    pub lines: List<InvoiceLineItem>,
 
     /// Has the value `true` if the object exists in live mode or the value `false` if the object exists in test mode.
     #[serde(skip_serializing_if = "Option::is_none")]
@@ -404,7 +404,7 @@ impl Invoice {
     /// You can list all invoices, or list the invoices for a specific customer.
     ///
     /// The invoices are returned sorted by creation date, with the most recently created invoices appearing first.
-    pub fn list(client: &Client, params: ListInvoices<'_>) -> Response<List<Invoice, ()>> {
+    pub fn list<'a>(client: &Client, params: ListInvoices<'_>) -> Response<List<Invoice>> {
         client.get_query("/invoices", &params)
     }
 

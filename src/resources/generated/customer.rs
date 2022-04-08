@@ -9,7 +9,9 @@ use crate::ids::{
     AlipayAccountId, BankAccountId, CardId, CouponId, CustomerId, PaymentMethodId, PaymentSourceId,
     PromotionCodeId,
 };
-use crate::params::{Deleted, Expand, Expandable, List, Metadata, Object, RangeQuery, Timestamp};
+use crate::params::{
+    Deleted, Expand, Expandable, List, Metadata, Object, Paginable, RangeQuery, Timestamp,
+};
 use crate::resources::{
     Address, Currency, Discount, PaymentMethod, PaymentSource, PaymentSourceParams, Scheduled,
     Shipping, Subscription, TaxId, TestHelpersTestClock,
@@ -117,11 +119,11 @@ pub struct Customer {
 
     /// The customer's payment sources, if any.
     #[serde(default)]
-    pub sources: List<PaymentSource, ()>,
+    pub sources: List<PaymentSource>,
 
     /// The customer's current subscriptions, if any.
     #[serde(default)]
-    pub subscriptions: List<Subscription, ()>,
+    pub subscriptions: List<Subscription>,
 
     #[serde(skip_serializing_if = "Option::is_none")]
     pub tax: Option<CustomerTax>,
@@ -135,7 +137,7 @@ pub struct Customer {
 
     /// The customer's tax IDs.
     #[serde(default)]
-    pub tax_ids: List<TaxId, ()>,
+    pub tax_ids: List<TaxId>,
 
     /// ID of the test clock this customer belongs to.
     #[serde(skip_serializing_if = "Option::is_none")]
@@ -146,7 +148,7 @@ impl Customer {
     /// Returns a list of your customers.
     ///
     /// The customers are returned sorted by creation date, with the most recent customers appearing first.
-    pub fn list(client: &Client, params: ListCustomers<'_>) -> Response<List<Customer, ()>> {
+    pub fn list<'a>(client: &Client, params: ListCustomers<'_>) -> Response<List<Customer>> {
         client.get_query("/customers", &params)
     }
 
@@ -421,6 +423,14 @@ pub struct ListCustomers<'a> {
     /// The response will not include customers with test clocks if this parameter is not set.
     #[serde(skip_serializing_if = "Option::is_none")]
     pub test_clock: Option<&'a str>,
+}
+
+impl Paginable for ListCustomers<'_> {
+    type O = Customer;
+
+    fn set_last(&mut self, item: Self::O) {
+        self.starting_after = Some(item.id());
+    }
 }
 
 impl<'a> ListCustomers<'a> {
