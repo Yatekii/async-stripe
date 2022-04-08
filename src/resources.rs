@@ -135,8 +135,6 @@ pub use {
         bank_account::*,
         payment_method::*,
         source::*,
-        payment_method_options_boleto::*,
-        payment_method_options_oxxo::*,
     },
 };
 
@@ -173,7 +171,6 @@ pub use {
         invoice::*,
         invoice_payment_method_options_acss_debit::*,
         invoice_payment_method_options_bancontact::*,
-        invoice_payment_method_options_card::*,
         invoice_payment_method_options_konbini::*,
         invoice_payment_method_options_customer_balance::*,
         invoice_payment_method_options_us_bank_account::*,
