@@ -195,7 +195,7 @@ pub use {
         subscription::PlanInterval as SubscriptionInterval,
         subscription::SubscriptionItemPriceDataRecurring as SubscriptionPriceDataRecurring,
         subscription::SubscriptionItemPriceData as SubscriptionPriceData,
-        billing::subscription::SubscriptionPaymentBehavior as SubscriptionPaymentBehaviorKind,
+        subscription::SubscriptionPaymentBehavior as SubscriptionPaymentBehavior,
         subscription_schedule::*,
         subscription_billing_thresholds::*,
         subscription_item_billing_thresholds::*,
